@@ -1,6 +1,7 @@
 package exercicios_colections.streamAPI;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class Principal {
     public static void main(String[] args) {
@@ -43,6 +44,27 @@ public class Principal {
         });
         set.addAll(agenda.entrySet());
         for (Map.Entry<Integer, Contato> entry: set) {
+            System.out.println(entry.getKey() + " - " + entry.getValue().getNumero() +
+                    ": " +entry.getValue().getNome());
+        }
+
+        /*System.out.println("--\tOrdem número telefone utilizando comparing\t--");
+        Set<Map.Entry<Integer, Contato>> set4 = new TreeSet<>(Comparator.comparing(new Function<Map.Entry<Integer, Contato>, Integer>() {
+            @Override
+            public Integer apply(Map.Entry<Integer, Contato> cont) {
+                return cont.getValue().getNumero();
+            }
+        }));
+        set4.addAll(agenda.entrySet());
+        for (Map.Entry<Integer, Contato> entry: set4) {
+            System.out.println(entry.getKey() + " - " + entry.getValue().getNumero() +
+                    ": " +entry.getValue().getNome());
+        }*/
+        System.out.println("--\tOrdem número telefone lambda\t--");
+        Set<Map.Entry<Integer, Contato>> set4 = new TreeSet<>(Comparator.comparing(
+                cont -> cont.getValue().getNumero()));
+        set4.addAll(agenda.entrySet());
+        for (Map.Entry<Integer, Contato> entry: set4) {
             System.out.println(entry.getKey() + " - " + entry.getValue().getNumero() +
                     ": " +entry.getValue().getNome());
         }
