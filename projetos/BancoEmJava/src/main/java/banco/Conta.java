@@ -1,17 +1,19 @@
 package banco;
 
-public abstract class Conta implements IConta {
+abstract public class Conta implements IConta {
     protected static int SEQUENCIAL = 1;
     protected static final int AGENCIA_PADRAO = 1;
-
-    public Conta(){
-        this.agencia = AGENCIA_PADRAO;
-        this.numero = SEQUENCIAL;
-    }
-
     protected double saldo;
+    protected Cliente cliente;
     protected int numero;
     protected int agencia;
+
+    public Conta(Cliente cliente){
+        this.agencia = AGENCIA_PADRAO;
+        this.numero = SEQUENCIAL;
+        this.cliente = cliente;
+        this.saldo = 300d;
+    }
 
     public int getNumero() {
         return numero;
@@ -23,10 +25,6 @@ public abstract class Conta implements IConta {
 
     public double getSaldo() {
         return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
     }
 
     //Métodos
@@ -42,13 +40,18 @@ public abstract class Conta implements IConta {
 
     @Override
     public void transferir(Conta contaDestino, double valor) {
-        this.sacar(valor);
-        contaDestino.depositar(valor);
+        if(valor > this.saldo)
+            System.out.println("Saldo insuficiente");
+        else {
+            this.sacar(valor);
+            contaDestino.depositar(valor);
+        }
     }
 
     protected void imprimirDados(){
-        System.out.printf("Agência: " + agencia);
-        System.out.printf("Número: " + numero);
-        System.out.printf("Agência: R$%.2f" + saldo);
+        System.out.println("Nome do cliente: " + cliente.getNome());
+        System.out.println("Agencia: " + agencia);
+        System.out.println("Numero: " + numero);
+        System.out.println(String.format("Saldo: %.2f", saldo));
     }
 }
